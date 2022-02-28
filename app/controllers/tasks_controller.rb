@@ -13,7 +13,6 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(message_params)
-    #TODO:255文字以上を入力・追加すると、else側にいかずにこの時点でエラーになる。
     if @task.save
       flash[:success] = 'タスクが正常に追加されました'
       redirect_to @task
@@ -29,7 +28,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    if @task.update(message_params)
+    if @task.update(task_params)
       flash[:success] = 'タスクは正常に更新されました'
       redirect_to @task
     else
@@ -45,8 +44,11 @@ class TasksController < ApplicationController
     redirect_to task_url
   end
   
+
+private
+
   # Strong Parameter
-  def message_params
+  def task_params
     params.require(:task).permit(:content)
   end
 
